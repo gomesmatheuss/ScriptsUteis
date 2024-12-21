@@ -29,9 +29,8 @@ def compactar_imagens(pasta_origem, pasta_destino, qualidade=85):
     if not os.path.exists(pasta_destino):
         os.makedirs(pasta_destino)
 
-    arquivos_origem = os.listdir(pasta_origem)
-    arquivos_destin = os.listdir(pasta_destino)
-    arquivos_destin = [arq.replace("_c.jpg", ".jpg") for arq in arquivos_destin]
+    arquivos_origem = [arq for arq in os.listdir(pasta_origem) if (arq.endswith(".jpg") or arq.endswith(".png")) and not arq.endswith("_c.jpg")]
+    arquivos_destin = [arq.replace("_c.jpg", ".jpg") for arq in os.listdir(pasta_destino)]
 
     arq_faltantes = set(arquivos_origem).difference(set(arquivos_destin))
 
@@ -72,9 +71,7 @@ def compactar_imagens(pasta_origem, pasta_destino, qualidade=85):
         print(arq)
 
 if __name__ == "__main__":
-    pasta_origem = input("- Pasta de Origem: ")
-    pasta_destino = input("- Pasta de Destino: ")
-
-    input("\nTem certeza que os caminhos estão corretos? [Ctrl + C para sair]")
+    pasta_origem = "C:/Users/gomes/Videos/imagens_mi9t"
+    pasta_destino = "C:/Users/gomes/Videos/imagens_mi9t_compressed"
 
     compactar_imagens(pasta_origem, pasta_destino, qualidade=70)

@@ -16,9 +16,8 @@ def compress_video(pasta_origem, pasta_destino, bitrate="2M", preset="medium"):
     if not os.path.exists(pasta_destino):
         os.makedirs(pasta_destino)
 
-    arquivos_origem = os.listdir(pasta_origem)
-    arquivos_destin = os.listdir(pasta_destino)
-    arquivos_destin = [arq.replace("_c.jpg", ".jpg") for arq in arquivos_destin]
+    arquivos_origem = [arq for arq in os.listdir(pasta_origem) if arq.endswith(".mp4") and not arq.endswith("_c.mp4")]
+    arquivos_destin = [arq.replace("_c.mp4", ".mp4") for arq in os.listdir(pasta_destino)]
 
     arq_faltantes = set(arquivos_origem).difference(set(arquivos_destin))
 
@@ -50,6 +49,7 @@ def compress_video(pasta_origem, pasta_destino, bitrate="2M", preset="medium"):
                 "-acodec", "aac",
                 "-b:a", "97k",
                 "-map_metadata", "0",
+                "-loglevel", "error",
                 caminho_destino
             ]
             subprocess.run(command, check=True)
